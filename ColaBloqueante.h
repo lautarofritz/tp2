@@ -14,11 +14,21 @@ class ColaBloqueante {
 
 	public:
 		ColaBloqueante();
-		void insertar(char recurso);
+
+		//agrega un recurso a la cola y notifica
+		//a los recolectores que estén esperando
+		void insertar(const char recurso);
+
+		//si la cola no está vacía, devuelve uno de los recursos
+		//si la cola está vacía, los recolectores quedan esperando
+		//si además está cerrada, devuelve '\0', marcando
+		//que no ingresarán más recursos
 		char obtener();
+
+		//marca el cierre de la cola
+		//a partir de este instante, no ingresarán más recursos a la misma
+		//y notifica a los recolectores que estén esperando
 		void cerrar();
-		bool vacia();
-		//~ColaBloqueante();
 };
 
 #endif

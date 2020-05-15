@@ -3,7 +3,7 @@
 
 ColaBloqueante::ColaBloqueante() : cerrada(false) {}
 
-void ColaBloqueante::insertar(char recurso){
+void ColaBloqueante::insertar(const char recurso){
 	std::lock_guard<std::mutex> lock(m);
     this->cola.push(recurso);
     cv.notify_all();
@@ -25,9 +25,4 @@ void ColaBloqueante::cerrar(){
 	std::lock_guard<std::mutex> lock(m);
 	this->cerrada = true;
 	cv.notify_all();
-}
-
-bool ColaBloqueante::vacia(){
-	std::lock_guard<std::mutex> lock(m);
-	return this->cola.empty();
 }

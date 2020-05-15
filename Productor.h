@@ -1,20 +1,17 @@
 #ifndef PRODUCTOR_H
 #define PRODUCTOR_H
 
-#include "Thread.h"
-#include "Receta.h"
-#include "Inventario.h"
+#include "Fabrica.h"
 
 class Productor : public Thread {
 	private:
 		Inventario &inv;
 		Receta receta;
-		std::condition_variable &cv;
+		Fabrica &fabrica;
 
 	public:
-		Productor(Inventario &inv, Receta receta, std::condition_variable &cv);
-		virtual void run();
-
+		Productor(Inventario &inv, Receta receta, Fabrica &fabrica);
+		virtual void ejecutar() override;
 };
 
 #endif

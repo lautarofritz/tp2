@@ -1,22 +1,21 @@
-#include <iostream>
 #include <unistd.h>
 #include "Productor.h"
 
 #define TIEMPO_DORMIR 6000
 
-Productor::Productor(Inventario &inv, Receta receta, std::condition_variable &cv) : inv(inv), receta(receta), cv(cv) {}
+Productor::Productor(Inventario &inv, Receta receta, Fabrica &fab) :
+	inv(inv), receta(receta), fabrica(fab) {}
 
-void Productor::run(){
+void Productor::ejecutar(){
 	int puntos;
 	while(true){
 		puntos = this->inv.obtener(receta);
-		usleep(TIEMPO_DORMIR);
-		//this->centroDePuntos.depositar(puntos);
 		if(puntos == 0){
-			cv.notify_all();
+			fabrica.notificarProductor();
 			return;
 		}
-		//std::cout << puntos << std::endl;
+		usleep(TIEMPO_DORMIR);
+		inv.depositarPuntos(puntos);
 		puntos = 0;
 	}
 }

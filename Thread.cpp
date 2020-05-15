@@ -4,19 +4,10 @@ Thread::Thread() {}
 
 Thread::~Thread() {}
 
-void Thread::start() {
-    thread = std::thread(&Thread::run, this);
+void Thread::empezar() {
+    thread = std::thread(&Thread::ejecutar, this);
 }
 
-void Thread::join() {
+void Thread::unir() {
     thread.join();
-}
-
-Thread::Thread(Thread&& other) {
-    this->thread = std::move(other.thread);
-}
-
-Thread& Thread::operator=(Thread&& other) {
-    this->thread = std::move(other.thread);
-    return *this;
 }
