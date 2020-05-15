@@ -1,3 +1,4 @@
+#include <map>
 #include "Receta.h"
 
 Receta::Receta(char recurso1, int cant1, char recurso2, int cant2, int puntos){
