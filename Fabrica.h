@@ -46,7 +46,6 @@ class Fabrica {
 
 		//notifica a la fábrica del retorno de un productor
 		void notificarProductor();
-		void mostrarBalance();
 		~Fabrica();
 };
 

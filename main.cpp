@@ -18,17 +18,20 @@ int main(int argc, char *argv[]){
 	Fabrica fabrica;
 
 	fsTrabajo.open(trabajadores, std::ios::in);
+	if(!fsTrabajo)
+		return 1;
 	parsearTrabajo(fsTrabajo, fabrica);
 	fsTrabajo.close();
 
 	fabrica.empezar();
 
 	fsMapa.open(mapa, std::ios::in);
+	if(!fsMapa)
+		return 1;
 	parsearMapa(fsMapa, fabrica);
 	fsMapa.close();
 
 	fabrica.cerrar();
-	fabrica.mostrarBalance();
 
 	return 0;
 }

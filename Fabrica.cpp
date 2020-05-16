@@ -72,6 +72,8 @@ void Fabrica::cerrar(){
 	while(cantProductores > 0){
     	cvProductor.wait(lock);
 	}
+
+	inv.mostrarBalance();
 }
 
 void Fabrica::notificarRecolector(){
@@ -84,10 +86,6 @@ void Fabrica::notificarProductor(){
 	std::unique_lock<std::mutex> lock(mutex);
 	cantProductores--;
 	cvProductor.notify_all();
-}
-
-void Fabrica::mostrarBalance(){
-	inv.mostrarBalance();
 }
 
 Fabrica::~Fabrica(){
