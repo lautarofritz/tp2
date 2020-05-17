@@ -14,9 +14,11 @@ A continuación se detallan cuestiones tales como el diseño del programa y las 
 
 ## Diseño
 
-A continuación se muestra un diagrama con las clases que componen el modelo:
+A continuación se muestran dos diagramas con las clases que componen el modelo: uno centrado en la clase Fábrica y su relación con los contenedores y trabajadores, y otro más bien enfocado en los trabajadores.
 
-diagrama
+![fabrica](img/fabrica.png)
+
+![trabajadores](img/trabajadores.png)
 
 Se optó por tener una clase Fábrica que esté compuesta por los contenedores de recursos (las distintas colas bloqueantes y el inventario), que tenga la responsabilidad de spawnear al resto de los hilos (los trabajadores), además de coordinar el cierre de los contenedores para la salida del programa.
 
