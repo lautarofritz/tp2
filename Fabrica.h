@@ -16,10 +16,9 @@ class Fabrica {
 		ColaBloqueante colaMadera;
 		ColaBloqueante colaMinerales;
 		Inventario inv;
-		std::condition_variable cvRecolector;
-		std::condition_variable cvProductor;
+		std::condition_variable cv;
 		std::mutex mutex;
-		int cantRecolectores;
+		int cantTrabajadores;
 		int cantProductores;
 
 	public:
@@ -41,11 +40,9 @@ class Fabrica {
 		//y aguarda el retorno de los productores
 		void cerrar();
 
-		//notifica a la fábrica del retorno de un recolector
-		void notificarRecolector();
-
-		//notifica a la fábrica del retorno de un productor
-		void notificarProductor();
+		//notifica a la Fábrica del fin del ciclo de trabajo
+		//de algún trabajador
+		void notificar();
 		~Fabrica();
 };
 

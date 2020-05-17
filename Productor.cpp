@@ -11,7 +11,7 @@ void Productor::ejecutar(){
 	while(true){
 		puntos = this->inv.obtener(receta);
 		if(puntos == 0){
-			fabrica.notificarProductor();
+			fabrica.notificar();
 			return;
 		}
 		usleep(TIEMPO_DORMIR);

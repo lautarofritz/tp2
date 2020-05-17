@@ -58,9 +58,9 @@ Los materiales son recursos compartidos, y por lo tanto, deben ser protegidos an
 
 ### Cierre de la Fábrica (parte 1)
 
-Cuando se termina de parsear el mapa y todos los recursos fueron asignados a su respectiva cola, se procede a cerrar la Fábrica. Este cierre se produce en partes, siendo la primera el cierre de las colas bloqueantes. Esto marca que la cola no recibirá más recursos. Cada cola, al cerrarse, notifica a los recolectores que estén esperando el ingreso de recursos.
+Cuando se termina de parsear el mapa y todos los recursos fueron asignados a su respectiva cola, se procede a cerrar la Fábrica. Este cierre se produce en partes, siendo la primera el cierre de las colas bloqueantes. Esto marca que la cola no recibirá más recursos. Cada cola, al cerrarse, notifica a los Recolectores que estén esperando el ingreso de recursos.
 
-Una vez hecho esto, la Fábrica debe aguardar a que no haya Recolectores activos para poder pasar a la siguiente fase. Esto se logra mediante una _condition variable_: cada vez que un Recolector termina su trabajo, notifica a la Fábrica, quien se despierta y se fija si la cantidad de Recolectores activos es 0.
+Una vez hecho esto, la Fábrica debe aguardar a que no haya Recolectores activos para poder pasar a la siguiente fase. Esto se logra mediante una _condition variable_: cada vez que un Recolector termina su trabajo, notifica a la Fábrica, quien se despierta y se fija si la cantidad de Recolectores activos es 0 (lo que en realidad hace es chequear si la cantidad de trabajadores activos es mayor a la cantidad de Productores. Naturalmente, si estos valores son iguales, significa que no hay Recolectores activos).
 
 ### Recolección e inserción en el Inventario
 
@@ -82,14 +82,16 @@ Es importante mencionar que el Inventario, al igual que las colas, debe restring
 
 A todo esto, una vez que se fueron todos los Recolectores, la Fábrica procede a cerrar el Inventario. El razonamiento detrás de esto es el siguiente: si no quedan Recolectores activos, no habrá más recursos ingresados en el Inventario. Por lo tanto, cualquier Productor que no haya podido completar su Receta deberá irse, ya que no podrá completarla nunca.
 
-El siguiente paso es salir y mostrar el total de puntos acumulados y los recursos sobrantes en el Inventario, pero para eso se debe esperar a que vuelvan todos los Productores. Nuevamente, esto se logra a través de una _condition variable_. La Fábrica espera a que vuelva un Productor y le notifique, en cuyo caso la Fábrica se despierta y chequea si la cantidad de Productores activos es 0.
-
 Al cerrarse el Inventario, son notificados todos los Productores que estén esperando, y se devuelve una cantidad especial de puntos de beneficio (0). Al recibir este valor, los Productores vuelven y notifican a la Fábrica.
+
+El siguiente paso es salir y mostrar el total de puntos acumulados y los recursos sobrantes en el Inventario, pero para eso se debe esperar a que vuelvan todos los Productores. Nuevamente, esto se logra a través de una _condition variable_. La Fábrica espera a que vuelva un Productor y le notifique, en cuyo caso la Fábrica se despierta y chequea si la cantidad de Productores activos (y por lo tanto, la cantidad de trabajadores activos en total, ya que no hay Recolectores activos en este instante) es 0.
 
 ### Muestra por pantalla
 
-...
+El siguiente paso después del cierre total de la Fábrica es la muestra por pantalla de los puntos acumulados y de los recursos sobrantes en el Inventario. El Inventario es quien se encarga de esto, ya que es él quien posee todos estos valores.
 
-### Problemas particulares (o algo así)
+### Problemas particulares
 
-... (la parte de la coordinacion del cierre).
+La parte del trabajo práctico que más costó (tanto por la lógica que implica como por la implementación) fue el cierre de la Fábrica. El hecho de tener que pensar cual es la condición de salida para cada tipo de trabajador (que es diferente en ambos casos), sumado a que estas salidas deben estar coordinadas trajo cierta complejidad. 
+
+Se había pensado en hacerlo de otra forma, pasándole a cada trabajador una referencia a su respectiva _condition variable_ y también una referencia al contador de trabajadores activos correspondiente a su clase, pero esto rompe de cierta forma el encapsulamiento de la Fábrica, al permitirle a los trabajadores modificar un atributo de la misma. 

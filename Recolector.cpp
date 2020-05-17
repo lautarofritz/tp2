@@ -11,7 +11,7 @@ void Recolector::ejecutar(){
 	while(true){
 		recurso = this->cola.obtener();
 		if(recurso == '\0'){
-			fabrica.notificarRecolector();
+			fabrica.notificar();
 			return;
 		}
 		usleep(TIEMPO_DORMIR);

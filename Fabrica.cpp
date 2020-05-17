@@ -6,8 +6,8 @@
 #include "Receta.h"
 
 Fabrica::Fabrica() : colaTrigo(), colaMadera(), colaMinerales(), inv() {
-	this->cantRecolectores = 0;
 	this->cantProductores = 0;
+	this->cantTrabajadores = 0;
 }
 
 void Fabrica::asignarTrabajo(const std::string tipo, const int cantidad){
@@ -32,6 +32,7 @@ void Fabrica::asignarTrabajo(const std::string tipo, const int cantidad){
 }
 
 void Fabrica::empezar(){
+	int cantRecolectores = 0;
 	for(int i = 0; i < TIPOS_DE_TRABAJADORES; i++){
 		for(unsigned int j = 0; j < trabajadores[i].size(); j++){
 			trabajadores[i][j]->empezar();
@@ -41,6 +42,7 @@ void Fabrica::empezar(){
 				cantProductores++;
 		}
 	}
+	cantTrabajadores = cantRecolectores + cantProductores;
 }
 
 void Fabrica::asignarRecurso(const char recurso){
@@ -63,29 +65,23 @@ void Fabrica::cerrar(){
 	this->colaMadera.cerrar();
 	this->colaMinerales.cerrar();
 
-    while (cantRecolectores > 0){
-    	cvRecolector.wait(lock);
+	while (cantTrabajadores > cantProductores){
+    	cv.wait(lock);
     }
 
 	this->inv.cerrar();
 
-	while(cantProductores > 0){
-    	cvProductor.wait(lock);
+	while(cantTrabajadores > 0){
+    	cv.wait(lock);
 	}
 
 	inv.mostrarBalance();
 }
 
-void Fabrica::notificarRecolector(){
+void Fabrica::notificar(){
 	std::unique_lock<std::mutex> lock(mutex);
-	cantRecolectores--;
-	cvRecolector.notify_all();
-}
-
-void Fabrica::notificarProductor(){
-	std::unique_lock<std::mutex> lock(mutex);
-	cantProductores--;
-	cvProductor.notify_all();
+	cantTrabajadores--;
+	cv.notify_all();
 }
 
 Fabrica::~Fabrica(){
