@@ -96,4 +96,4 @@ El siguiente paso después del cierre total de la Fábrica es la muestra por pan
 
 La parte del trabajo práctico que más costó (tanto por la lógica que implica como por la implementación) fue el cierre de la Fábrica. El hecho de tener que pensar cual es la condición de salida para cada tipo de trabajador (que es diferente en ambos casos), sumado a que estas salidas deben estar coordinadas trajo cierta complejidad. 
 
-Se había pensado en hacerlo de otra forma, pasándole a cada trabajador una referencia a su respectiva _condition variable_ y también una referencia al contador de trabajadores activos correspondiente a su clase, pero esto rompe de cierta forma el encapsulamiento de la Fábrica, al permitirle a los trabajadores modificar un atributo de la misma. 
+Se había pensado en hacerlo de otra forma, pasándole a cada trabajador una referencia a la _condition variable_ de la Fábrica y también una referencia al contador de trabajadores activos, pero esto rompe de cierta forma el encapsulamiento de la Fábrica, al permitirle a los trabajadores modificar un atributo de la misma. 
